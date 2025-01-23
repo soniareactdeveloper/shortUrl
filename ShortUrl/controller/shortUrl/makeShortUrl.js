@@ -2,9 +2,9 @@ const express = require("express");
 const isUrlValid = require("../../helper/isUrlValid");
 const generateRandomShortId = require("./generateShortId");
 const shortUrlSchema = require("../../model/shortUrlSchema");
-const makeshortUrlRouter = express.Router();
 
-makeshortUrlRouter.post('/shortUrl', (req, res) => {
+
+const makeshortUrlRouter = async (req, res) => {
   const { url } = req.body;
 
   if (!url) {
@@ -23,6 +23,17 @@ makeshortUrlRouter.post('/shortUrl', (req, res) => {
      shorted = generateRandomShortId(url);
    }
 
+    // Find and update the document, or insert if it doesn't exist
+    const existUrl = await shortUrlSchema.findOneAndUpdate(
+      { url }, 
+      { $set: { shortId: shorted } },
+      { new: true, upsert: true }
+    );
+
+   if(existUrl){
+     return res.send(existUrl)
+   }
+
   //  sending date to the mongodb
    const shortUrl = new shortUrlSchema({
     url: url,
@@ -31,7 +42,7 @@ makeshortUrlRouter.post('/shortUrl', (req, res) => {
    shortUrl.save()
 
    
-  res.send({shorted});
-});
+  res.send({existUrl});
+};
 
 module.exports = makeshortUrlRouter;
