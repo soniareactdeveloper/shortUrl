@@ -31,11 +31,11 @@ const makeshortUrlRouter = async (req, res) => {
     );
 
     if(existUrl){
-      return res.status(200).send({
-          message: "Short Url created successfully!",
-          longUrl: existUrl.url,
-          shortUrl: `localhost:8000/${existUrl.shortId}`
-      })
+      return res.render("home", {
+        message: "Short Url created successfully!",
+        longUrl: existUrl.url,
+        shortUrl: `http://localhost:8080/${existUrl.shortId}`
+       })
   
     }
   //  sending date to the mongodb
@@ -45,10 +45,10 @@ const makeshortUrlRouter = async (req, res) => {
    });
    shortUrl.save()
 
-   res.status(200).send({
+   res.render("home", {
     message: "Short Url created successfully!",
     longUrl: shortUrl.url,
-    shortUrl: `localhost:8000/${shortUrl.shortId}`
+    shortUrl: `http://localhost:8080/${shortUrl.shortId}`
    })
 };
 

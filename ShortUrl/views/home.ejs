@@ -7,15 +7,75 @@
   <link rel="stylesheet" href="/style/style.css">
 </head>
 <body>
+
+  <!-- Navbar -->
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Log In</a>
+    <a href="#">Register</a>
+    <a href="#">Contact</a>
+  </nav>
+
+  <!-- Short URL Generator Section -->
   <div class="container">
     <h1>Short URL Generator</h1>
-    <form id="shortUrlForm">
-      <input type="text" id="longUrl" placeholder="Enter your long URL" required>
-      <button type="submit">Generate Short URL</button>
+    <p>Paste the URL to be shortened. Enter the link here.</p>
+    
+    <!-- Form Submission -->
+    <form class="shortUrlForm" action="http://localhost:8080/api/v1/genarate/shortUrl" method="post">
+      <input class="longUrl" type="text" placeholder="Enter long URL" name="url" value="<%= locals.longUrl %>"/>
+      <button class="btn-generate" type="submit">Generate</button>
     </form>
-    <div class="output" id="output" style="display: none;">
-      <p>Short URL: <a href="#" id="shortUrl" target="_blank"></a></p>
-    </div>
+
+    <!-- EJS Condition -->
+    <% if (locals.shortUrl) { %>
+      <div id="result" class="short-url-container">
+        <p>
+          <span>Your short URL: </span>
+          <a id="shortUrl" href="<%= locals.shortUrl %>" target="_blank">
+            <%= locals.shortUrl %>
+          </a>
+        </p>
+        <div class="button-container">
+          <button class="btn-copy" onclick="copyShortUrl()">Copy</button>
+          <button class="btn-new" onclick="backhome()">Generate New</button>
+        </div>
+      </div>
+    <% } %>
   </div>
+
+  <!-- Premium Features Section -->
+  <% if (locals.shortUrl) { %>
+    <div class="premium-container">
+      <h2>Want More? Try Premium Features!</h2>
+      <p>Custom short links, powerful dashboard, detailed analytics, API, UTM builder, QR codes, browser extension, app integrations, and support.</p>
+      <button class="btn-create-account">Create Account</button>
+    </div>
+  <% } %>
+
+  <!-- Script -->
+  <script>
+   // Function to copy the short URL
+      function copyShortUrl() {
+        const shortUrlElement = document.getElementById("shortUrl"); 
+        const shortUrl = shortUrlElement.getAttribute("href");
+        const copyButton = document.querySelector(".btn-copy"); 
+
+        navigator.clipboard.writeText(shortUrl) 
+          .then(() => {
+            copyButton.innerHTML = "Copied!"; // Change button text to "Copied!"
+            setTimeout(() => {
+              copyButton.innerHTML = "Copy"; // Revert back to "Copy" after 2 seconds
+            }, 3000);
+          })
+          .catch(err => console.error("Failed to copy URL: ", err)); // Error handling
+      }
+      
+    // Function to go back to the homepage
+    function backhome() {
+      window.location.pathname = "/"; // Redirect to the homepage
+    }
+  </script>
+  
 </body>
 </html>

@@ -12,7 +12,7 @@ const renderUrl = async (req, res) =>{
  }
 
 
-  res.send(existUrl); 
+  res.redirect(existUrl.url); 
 
 }
 
