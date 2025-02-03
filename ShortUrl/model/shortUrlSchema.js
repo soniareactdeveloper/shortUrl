@@ -9,7 +9,14 @@ const shortUrlSchema = new Schema({
   },
   shortId : {
     type:String
-  }
+  },
+  visitedHistory : [
+    {
+      clickedAt : {
+        type: Date,
+      }
+    }
+  ]
 });
 
 

@@ -26,6 +26,9 @@
       <input class="longUrl" type="text" placeholder="Enter long URL" name="url" value="<%= locals.longUrl %>"/>
       <button class="btn-generate" type="submit">Generate</button>
     </form>
+    <% if (locals.error) { %>
+      <p class="error" style="padding-top: 15px;"><%= error %></p>
+    <% } %>
 
     <!-- EJS Condition -->
     <% if (locals.shortUrl) { %>

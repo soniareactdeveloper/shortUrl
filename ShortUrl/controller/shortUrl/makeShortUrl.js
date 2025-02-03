@@ -8,11 +8,15 @@ const makeshortUrlRouter = async (req, res) => {
   const { url } = req.body;
 
   if (!url) {
-    return res.status(400).send({ error: "URL is required" });
+    return res.render("home", {
+      error: "URL is required!",
+     })
   }
 
   if (!isUrlValid(url)) {
-    return res.status(400).send({ error: "URL is not valid" });
+    return res.render("home", {
+      error: "URL is not Valid!",
+     })
   }
 
   // // Generate the short ID
