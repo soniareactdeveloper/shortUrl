@@ -1,0 +1,14 @@
+<%- include("./particals/header.ejs") %>
+
+<div class="error-page">
+  <div class="error-content">
+    <h1 class="error-title">404</h1>
+    <% if (locals.error) { %>
+      <p class="error-message"><%= error %></p>
+    <% } %>
+    <a href="/" class="error-btn">Go Back Home</a>
+  </div>
+</div>
+
+</body>
+</html>

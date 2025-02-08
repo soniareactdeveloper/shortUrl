@@ -1,6 +1,13 @@
-const homePage = (req, res) =>{
-  res.render('home')
-}
+const homePage = (req, res) => {
+  res.render('home');
+};
 
+const loginPage = (req, res) => {
+  res.render('login');
+};
 
-module.exports = homePage;
+const registerPage = (req, res) => {
+  res.render('register');
+};
+
+module.exports = { homePage, loginPage, registerPage };

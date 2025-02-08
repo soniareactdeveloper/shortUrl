@@ -1,20 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Short URL Generator</title>
-  <link rel="stylesheet" href="/style/style.css">
-</head>
-<body>
-
-  <!-- Navbar -->
-  <nav>
-    <a href="#">Home</a>
-    <a href="#">Log In</a>
-    <a href="#">Register</a>
-    <a href="#">Contact</a>
-  </nav>
+<%- include("./particals/header.ejs") %>
 
   <!-- Short URL Generator Section -->
   <div class="container">
@@ -66,17 +50,17 @@
 
         navigator.clipboard.writeText(shortUrl) 
           .then(() => {
-            copyButton.innerHTML = "Copied!"; // Change button text to "Copied!"
+            copyButton.innerHTML = "Copied!";
             setTimeout(() => {
-              copyButton.innerHTML = "Copy"; // Revert back to "Copy" after 2 seconds
+              copyButton.innerHTML = "Copy"; 
             }, 3000);
           })
-          .catch(err => console.error("Failed to copy URL: ", err)); // Error handling
+          .catch(err => console.error("Failed to copy URL: ", err)); 
       }
       
     // Function to go back to the homepage
     function backhome() {
-      window.location.pathname = "/"; // Redirect to the homepage
+      window.location.pathname = "/"; 
     }
   </script>
   

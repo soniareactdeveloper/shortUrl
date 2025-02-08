@@ -12,7 +12,7 @@ const renderUrl = async (req, res) =>{
  );
 
  if (!existUrl) {
-   return res.status(404).send("Page not found");
+   return res.render("error", {error: "Oops! The page you are looking for does not exist."})
  }
 
 
