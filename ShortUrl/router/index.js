@@ -2,6 +2,7 @@ const express = require("express");
 const apiRouter = require("./api");
 const { homePage, loginPage, registerPage } = require("./staticSites");
 const { renderUrl, visitedHistory } = require("../controller/shortUrl/renderUrl");
+const validateUser = require("../middleware/authMiddleware");
 const router = express.Router();
 
 // API routes
@@ -14,7 +15,11 @@ router.get('/login', loginPage);
 
 router.get('/register', registerPage);
 
-// Short URL routes
+router.get('/dashboard',validateUser, (req, res) => {
+  res.send(req.user);
+});
+
+// Short URL route
 router.get('/visitedhistory/:shortId', visitedHistory);
 router.get('/:shortId', renderUrl);
 

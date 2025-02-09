@@ -48,9 +48,11 @@ const login = async (req, res) => {
     );
 
     // Exclude the password field
-    const loggedUser = await registrationSchema
-      .findOne({ email: existingUser.email })
-      .select("-password");
+    const loggedUser = {
+      id : existingUser._id,
+      email: existingUser.email,
+      UserName : existingUser.UserName
+    }
 
     res
       .status(200)
