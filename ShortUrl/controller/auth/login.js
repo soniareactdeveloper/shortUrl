@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken"); 
+const jwt = require("jsonwebtoken");
 const validateEmail = require("../../helper/validEmail");
 const validatePassword = require("../../helper/validPassword");
 const registrationSchema = require("../../model/registrationSchema");
@@ -44,18 +44,25 @@ const login = async (req, res) => {
     const token = jwt.sign(
       { userId: existingUser._id, email: existingUser.email },
       process.env.JWT_SECRET,
-      { expiresIn: "1d" } 
+      { expiresIn: "1d" }
     );
 
     // Exclude the password field
-    const loggedUser = await registrationSchema.findOne({ email: existingUser.email }).select("-password");
+    const loggedUser = await registrationSchema
+      .findOne({ email: existingUser.email })
+      .select("-password");
 
-    res.status(200).json({
-      message: "Login successful",
-      token, 
-      user: loggedUser, 
-    });
-
+    res
+      .status(200)
+      .cookie("access_token", token, {
+        httpOnly: true,
+        sameSite: "Strict",
+      })
+      .send({
+        message: "Login successful",
+        token,
+        user: loggedUser,
+      });
   } catch (error) {
     console.error("Login error:", error);
     res.status(500).json({ error: "Internal server error" });
