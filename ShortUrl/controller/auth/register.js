@@ -6,10 +6,9 @@ const saltRounds = 10;
 
 const register = async (req, res) => {
   try {
-    const { UserName, email, password } = req.body;
+    const { username, email, password } = req.body;
 
-    // Validate that all fields are provided
-    if (!UserName) {
+    if (!username) {
       return res.status(400).json({ error: "Username is required" });
     }
     if (!email) {
@@ -19,35 +18,34 @@ const register = async (req, res) => {
       return res.status(400).json({ error: "Password is required" });
     }
 
-    // Validate email format using the helper function
+    // Validate email 
     if (!validateEmail(email)) {
       return res.status(400).json({ error: "Invalid email format" });
     }
 
-    // Validate password using the helper function
+    // Validate password 
     if (!validatePassword(password)) {
       return res.status(400).json({ error: "Password must be at least 8 characters long, contain at least one letter, one number, and one special character" });
     }
      
-    // Check if the email is already registered
+    // email is registered
     const existingUser = await registrationSchema.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ error: "Email is already registered" });
     }
 
-    // Hash the password before saving the user
+    // Hash the password
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    // Create and save the new user with the hashed password
     const user = new registrationSchema({ 
-      UserName, 
+      username, 
       email, 
       password: hashedPassword  
     });
 
     await user.save();
 
-    res.status(201).json({ message: "Registration successful" });
+    res.redirect("/login");
 
   } catch (error) {
     console.error("Registration error:", error);

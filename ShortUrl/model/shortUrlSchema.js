@@ -10,6 +10,10 @@ const shortUrlSchema = new Schema({
   shortId : {
     type:String
   },
+  isAuth:{
+    type: Boolean,
+    default: false
+  },
   visitedHistory : [
     {
       clickedAt : {

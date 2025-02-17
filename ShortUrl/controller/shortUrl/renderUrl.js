@@ -5,34 +5,27 @@ const renderUrl = async (req, res) =>{
   const  shortId  = req.params.shortId; 
  
 
- const existUrl = await shortUrlSchema.findOneAndUpdate(
-  { shortId },
-  { $push :{ visitedHistory:{ clickedAt: Date.now()}}},
-  { new: true}
+ const existUrl = await shortUrlSchema.findOne(
+  { shortId }
  );
 
  if (!existUrl) {
    return res.render("error", {error: "Oops! The page you are looking for does not exist."})
  }
+  
+ if (existUrl.isAuth){
+    const url =  await shortUrlSchema.findByIdAndUpdate(
+        existUrl._id,
+        { $push :{ visitedHistory:{ clickedAt: Date.now()}}},
+        { new: true}
+      );
 
-
+    res.redirect(url.url); 
+ } else {
   res.redirect(existUrl.url); 
-
-}
-
-const visitedHistory = async (req, res) => {
- const  shortId  = req.params.shortId; 
- 
-
- const existUrl = await shortUrlSchema.findOne({shortId})
-
- if (!existUrl) {
-   return res.status(404).send("ID not found");
  }
 
 
-  res.send(existUrl); 
-
 }
 
-module.exports = {renderUrl, visitedHistory}; 
+module.exports = {renderUrl}; 

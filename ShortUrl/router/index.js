@@ -1,7 +1,7 @@
 const express = require("express");
 const apiRouter = require("./api");
 const { homePage, loginPage, registerPage } = require("./staticSites");
-const { renderUrl, visitedHistory } = require("../controller/shortUrl/renderUrl");
+const { renderUrl} = require("../controller/shortUrl/renderUrl");
 const validateUser = require("../middleware/authMiddleware");
 const router = express.Router();
 
@@ -9,7 +9,7 @@ const router = express.Router();
 router.use(process.env.BASE_API_URL, apiRouter);
 
 // View routes
-router.get('/', homePage);
+router.get('/', validateUser, homePage);
 
 router.get('/login', loginPage);
 
@@ -20,7 +20,6 @@ router.get('/dashboard',validateUser, (req, res) => {
 });
 
 // Short URL route
-router.get('/visitedhistory/:shortId', visitedHistory);
 router.get('/:shortId', renderUrl);
 
 // Handle 404 errors

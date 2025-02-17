@@ -1,5 +1,7 @@
 const homePage = (req, res) => {
-  res.render('home');
+  res.render('home',{
+    loggedUser: req.user,
+  });
 };
 
 const loginPage = (req, res) => {

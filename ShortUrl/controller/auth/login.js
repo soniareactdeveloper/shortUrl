@@ -23,8 +23,7 @@ const login = async (req, res) => {
     // Validate password format
     if (!validatePassword(password)) {
       return res.status(400).json({
-        error:
-          "Password must be at least 8 characters long, contain at least one letter, one number, and one special character",
+        error: "Password must be at least 8 characters long, contain at least one letter, one number, and one special character",
       });
     }
 
@@ -49,22 +48,19 @@ const login = async (req, res) => {
 
     // Exclude the password field
     const loggedUser = {
-      id : existingUser._id,
+      id: existingUser._id,
       email: existingUser.email,
-      UserName : existingUser.UserName
-    }
+      UserName: existingUser.UserName
+    };
 
-    res
-      .status(200)
-      .cookie("access_token", token, {
-        httpOnly: true,
-        sameSite: "Strict",
-      })
-      .send({
-        message: "Login successful",
-        token,
-        user: loggedUser,
-      });
+    // Set cookie and send response
+    res.cookie("access_token", token, {
+      httpOnly: true,
+      sameSite: "Strict",
+    });
+    // Redirect to home page 
+    res.redirect('/');
+
   } catch (error) {
     console.error("Login error:", error);
     res.status(500).json({ error: "Internal server error" });

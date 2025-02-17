@@ -1,9 +1,8 @@
 <%- include("./particals/header.ejs") %>
-
     <div class="regmain">
         <div class="register">
             <h2>Register</h2>
-            <form action="/register" method="POST">
+            <form action="http://localhost:8080/api/v1/auth/register" method="POST"> 
                 <input type="text" name="username" placeholder="Username" required>
                 <input type="email" name="email" placeholder="Email" required>
                 <input type="password" name="password" placeholder="Password" required>
@@ -15,3 +14,6 @@
     </div>
 </body>
 </html>
+
+
+
